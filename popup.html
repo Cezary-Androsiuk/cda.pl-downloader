@@ -59,6 +59,9 @@
             -ms-user-select: none; /* IE 10+ */
             user-select: none; /* Standard */
         }
+        #errorLabel{
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -75,6 +78,10 @@
             <li>second href</li>
             <li>third href</li>
         </ul>
+        <br>
+        <label><strong>Video Title: </strong></label>
+        <br>
+        <label id="videoTitleLabel"></label>
         <br><br>
         <div>
             <button id="downloadVideoFileButton" disabled>Download Video</button>
@@ -87,7 +94,7 @@
         </div>
         <br>
         <br>
-        <label>Command to connect Video and Audio:</label>
+        <label><strong>Command to connect Video and Audio: </strong></label>
         <br>
         <label id="ffmpegLabel"></label>
         <br>

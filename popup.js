@@ -185,9 +185,45 @@ async function getVideoTitle(currentTabID){
     return injectionResults[0].result
 }
 
-function validateVideoTitle(videoTitle){
-    // no validation yet
-    return videoTitle;
+function addVideoTitleToLabel(videoTitle){
+    const label = document.getElementById('videoTitleLabel')
+    label.textContent = videoTitle
+}
+
+function validateVideoTitle(videoTitle){ // GEMINI
+    // 1. Ensure the input is a string and is not empty.
+    if (typeof videoTitle !== 'string' || videoTitle.length === 0) {
+        return 'untitled-empty1';
+    }
+
+    // 2. Define illegal characters for filenames. It's best to use the Windows rules
+    //    as they are the most restrictive, ensuring cross-platform compatibility.
+    //    The forbidden characters are: < > : " / \ | ? *
+    const illegalChars = /[<>:"/\\|?*]/g;
+
+    // 3. Define ASCII control characters (e.g., newline, tab) which are invisible
+    //    but can cause issues in filenames.
+    const controlChars = /[\x00-\x1f\x7f]/g;
+
+    // 4. Replace illegal and control characters with an underscore '_'.
+    let sanitized = videoTitle.replace(illegalChars, '_').replace(controlChars, '_');
+
+    // 5. Remove any leading or trailing dots or spaces,
+    //    as they can cause issues on some systems.
+    sanitized = sanitized.trim().replace(/^[. ]+|[. ]+$/g, "");
+
+    // 6. Limit the filename length to a safe value (e.g., 200 characters)
+    //    to avoid issues with filesystem limits.
+    const maxLength = 200;
+    sanitized = sanitized.substring(0, maxLength);
+
+    // 7. If the filename is empty after all operations
+    //    (e.g., the input was only "?*"), return a default name.
+    if (sanitized.length === 0) {
+        return 'untitled-empty2';
+    }
+
+    return sanitized;
 }
 
 function toVideoFileName(validVideoTitle){
@@ -327,7 +363,11 @@ async function main(){
 
     // GAIN VIDEO TITLE FROM THE PAGE
     const videoTitle = await getVideoTitle(currentTabID);
-    console.log("video title:", videoTitle)
+    
+    // ADD VIDEO TITLE TO THE LABEL
+    addVideoTitleToLabel(videoTitle)
+
+    // PROCESS VIDEO TITLE
     const validVideoTitle = validateVideoTitle(videoTitle);
     const videoFileName = toVideoFileName(validVideoTitle);
     const audioFileName = toAudioFileName(validVideoTitle);
