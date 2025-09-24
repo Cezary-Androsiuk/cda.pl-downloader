@@ -1,0 +1,42 @@
+{
+    "manifest_version": 3,
+    "name": ".CDA - Downloader",
+    "description": "Easy download from cda.pl",
+    "version": "1.0",
+    "icons":{
+        "16": "/images/icon_16.png",
+        "48": "/images/icon_48.png",
+        "128": "/images/icon_128.png"
+    },
+    "action":{
+        "default_popup": "popup.html",
+        "default_title": "CDA Downlaoder",
+        "default_icon":{
+            "16": "/images/icon_16.png",
+            "48": "/images/icon_48.png",
+            "128": "/images/icon_128.png"
+        }
+    },
+    "content_scripts": [
+        
+    ],
+    "permissions": [
+        "activeTab", 
+        "scripting",
+        "downloads",
+        "storage",
+        "debugger"
+    ],
+    "host_permissions": [
+        
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": ["popup.html"],
+            "matches": ["https://www.cda.pl/*"]
+        }
+    ]
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chrome DevTool</title>
+        <meta charset="UTF-8">
+        <script defer src="popup.js"></script>
+        <!-- 
+        Atrybut defer w tej linii oznacza, że skrypt zostanie pobrany asynchronicznie (bez blokowania parsowania HTML), 
+        ale jego wykonanie zostanie odroczone do momentu, gdy cały dokument HTML zostanie w pełni przetworzony i przygotowany (DOMContentLoaded).
+        
+        Kluczowe cechy defer:
+        Pobieranie asynchroniczne - skrypt jest pobierany w tle bez blokowania parsowania strony
+        Wykonanie po parsowaniu - skrypt wykonuje się dopiero po pełnym załadowaniu DOM
+        Kolejność zachowana - wiele skryptów z defer wykonuje się w kolejności ich występowania w dokumencie
+        Equivalenty - defer="defer" i po prostu defer działają tak samo
+        
+        Przykład użycia:
+        /// Pobierze się asynchronicznie, wykona po załadowaniu DOM 
+        <script defer src="/popup.bundle.js"></script>
+        <script defer src="/analytics.js"></script>  /// Wykona się PO popup.bundle.js 
+        
+        Różnica vs async:
+        async - wykonuje się natychmiast po pobraniu (nie zachowuje kolejności)
+        defer - wykonuje się po parsowaniu DOM (zachowuje kolejność)
+        
+        Atrybut defer jest szczególnie przydatny dla skryptów, które muszą działać na gotowym DOM, ale nie powinny blokować ładowania strony.
+        -->
+    <style>
+        body {
+            font-family: sans-serif;
+            width: 700px; 
+            padding: 10px;
+            /* border-radius: 10px; */
+
+            --background-color: #22272e;
+            --text-color: #c5d1de;
+            --accent-color: #58a6ff;
+            --border-color: #444c56;
+            --button-bg-color: #373e47;
+            font-family: sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 15px;
+            min-width: 300px;
+            transition: background-color 0.2s, color 0.2s; /* Płynne przejście */
+        }
+        h1 {
+            color: #d32c26;
+            font-size: 16px;
+        }
+        #resourcesList {
+            border: 1px solid var(--text-color);
+            padding: 10px;
+            list-style-type: none;
+        }
+        #checkboxLabel {
+            cursor: pointer; /* Zmienia kursor na "rączkę", co sugeruje klikalność */
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10+ */
+            user-select: none; /* Standard */
+        }
+    </style>
+</head>
+<body>
+    <h1>CDA Downloader</h1>
+    <div id="content">
+
+    </div>
+
+    <div id="hiddenContent" style="display: none;">
+        <label id="checkboxLabel"><input id="showResourcesCheckbox" type="checkbox">Show Found Resources</label>
+        <div id="infoField"></div>
+        <ul id="resourcesList">
+            <li>first href</li>
+            <li>second href</li>
+            <li>third href</li>
+        </ul>
+        <br><br>
+        <div>
+            <button id="downloadVideoFileButton" disabled>Download Video</button>
+            <label id="videoFileLabel"></label>
+        </div>
+        <br>
+        <div>
+            <button id="downloadAudioFileButton" disabled>Download Audio</button>
+            <label id="audioFileLabel"></label>
+        </div>
+
+        <label id="errorLabel"></label>
+    </div>
+</body>
+</html>
