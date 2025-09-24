@@ -280,6 +280,11 @@ function setAudioDownloadButton(resource, audioFileName){
     });
 }
 
+function addFFmpegCommand(videoFileName, audioFileName, validVideoTitle){
+    const label = document.getElementById("ffmpegLabel");
+    label.textContent = `ffmpeg -i "${videoFileName}" -i "${audioFileName}" -c:v copy -c:a copy "${validVideoTitle}.mp4"`
+}
+
 async function main(){
     const targetPagePrefix = "https://www.cda.pl/" // prefix
     
@@ -335,5 +340,8 @@ async function main(){
     
     setVideoDownloadButton(bestResources.video, videoFileName);
     setAudioDownloadButton(bestResources.audio, audioFileName)
+
+    // ADD COMMAND (EASY COPY-PASTE) FOR FFMPEG
+    addFFmpegCommand(videoFileName, audioFileName, validVideoTitle);
 }
 main();
